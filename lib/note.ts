@@ -2,16 +2,16 @@ export const note = {
   name: 'Maddi',
   stanzas: [
     [
-      'Maddi, you asked for a poem—fair play.',
-      'I built you a website. A normal display.',
-      'You learn new languages; I’m finding a way',
-      'To say “you seem lovely” without a cliché.',
+      'You asked for a poem.',
+      'I got a little carried away.',
+      "You're learning new languages.",
+      "I'm still figuring out what to say.",
     ],
     [
-      'You bring the dancing; I’ll give it a go,',
-      'Though royal-ball footwork is something I owe.',
-      'When January brings you to Korea’s side,',
-      'Perhaps your first coffee could come with a guide?',
+      'You can pick the song.',
+      "I'll try to keep up.",
+      'And when you get to Korea in January,',
+      'let me take you out for coffee.',
     ],
   ],
   instagram: {

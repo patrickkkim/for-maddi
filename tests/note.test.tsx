@@ -14,7 +14,7 @@ describe('Maddi’s little note', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
     await user.click(trigger);
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
-    expect(screen.getByText('Perhaps your first coffee could come with a guide?')).toBeTruthy();
+    expect(screen.getByText('let me take you out for coffee.')).toBeTruthy();
     const link = screen.getByRole('link', { name: 'Find me on Instagram' });
     expect(link.getAttribute('href')).toBe('https://www.instagram.com/s_h_kim_0/');
     expect(link.getAttribute('rel')).toContain('noopener');
