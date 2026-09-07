@@ -1,16 +1,31 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { ArrowDown, ArrowUpRight, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { RevealBurst } from '@/components/reveal-burst';
 import { note } from '@/lib/note';
 
 export function LittleNote() {
   const [open, setOpen] = useState(false);
+  const [burst, setBurst] = useState<number | null>(null);
+  const burstId = useRef(0);
+  const clearBurst = useCallback(() => setBurst(null), []);
+
+  function handleOpenChange(nextOpen: boolean) {
+    setOpen(nextOpen);
+    if (!nextOpen) {
+      clearBurst();
+      return;
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    setBurst(++burstId.current);
+  }
 
   return (
-    <Collapsible open={open} onOpenChange={setOpen} className="note-shell">
+    <Collapsible open={open} onOpenChange={handleOpenChange} className="note-shell">
+      {burst !== null && <RevealBurst key={burst} onComplete={clearBurst} />}
       <article className="note-paper" data-open={open}>
         <div className="note-cover">
           <Heart size={24} strokeWidth={1.3} aria-hidden="true" />
@@ -23,9 +38,11 @@ export function LittleNote() {
         <CollapsibleContent className="poem-panel">
           <div className="poem-inner">
             <div className="poem" aria-label="A poem for Maddi">
-              {note.stanzas.map((stanza) => (
+              {note.stanzas.map((stanza, stanzaIndex) => (
                 <p className="stanza" key={stanza[0]}>
-                  {stanza.map((line) => <span className="poem-line" key={line}>{line}</span>)}
+                  {stanza.map((line, lineIndex) => (
+                    <span className="poem-line" key={line} style={{ animationDelay: `${(note.stanzas.slice(0, stanzaIndex).reduce((count, lines) => count + lines.length, 0) + lineIndex) * 55}ms` }}>{line}</span>
+                  ))}
                 </p>
               ))}
             </div>

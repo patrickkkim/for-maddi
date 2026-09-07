@@ -36,14 +36,14 @@ button { font: inherit; cursor: pointer; }
 a { color: inherit; }
 ::selection { background: #af193a; color: #fffaf2; }
 :focus-visible { outline: 3px solid var(--primary); outline-offset: 6px; }
-.note-layout { display: grid; grid-template-columns: 0.85fr 1fr; gap: clamp(2.5rem, 7vw, 8rem); align-items: center; padding: clamp(2rem, 7vw, 7.5rem) clamp(1.4rem, 5vw, 5.5rem); min-height: 100svh; max-width: 1450px; margin: auto; }
+.note-layout { overflow-x: clip; display: grid; grid-template-columns: 0.85fr 1fr; gap: clamp(2.5rem, 7vw, 8rem); align-items: center; padding: clamp(2rem, 7vw, 7.5rem) clamp(1.4rem, 5vw, 5.5rem); min-height: 100svh; max-width: 1450px; margin: auto; }
 .intro { padding: 0; }
 h1 { margin: 2rem 0 2.4rem; font-family: var(--serif); font-size: clamp(5.4rem, 10vw, 10.25rem); line-height: 0.88; letter-spacing: -0.065em; font-weight: 400; color: var(--primary); }
 h1 span { display: inline-block; padding-top: 0.05em; }
 h1 i { font-weight: 400; }
 .note-shell { min-width: 0; padding: 0.6rem 0; }
-.note-paper { background: var(--paper); border: 1px solid #dfc5c0; padding: clamp(1.4rem, 3.6vw, 3.8rem); box-shadow: 0 4px 0 -1px #f7eee4, 0 5px 0 #ddc6c2, 0 9px 0 -2px #f8efe7, 0 10px 0 -1px #ddc6c2, 0 25px 50px -28px #68373d55; transform: rotate(1.4deg); transition: transform 450ms ease; }
-.note-paper[data-open='true'] { transform: rotate(0deg); }
+.note-paper { position: relative; isolation: isolate; background: var(--paper); border: 1px solid #dfc5c0; padding: clamp(1.4rem, 3.6vw, 3.8rem); box-shadow: 0 4px 0 -1px #f7eee4, 0 5px 0 #ddc6c2, 0 9px 0 -2px #f8efe7, 0 10px 0 -1px #ddc6c2, 0 25px 50px -28px #68373d55; transform: rotate(1.4deg); transition: transform 450ms ease; }
+.note-paper[data-open='true'] { transform: rotate(0deg); animation: paper-party 850ms ease-out both; }
 .note-cover { text-align: center; padding: 1.75rem 0 3.5rem; }
 .note-cover svg { margin: 0 auto 2rem; color: var(--primary); }
 h2 { font-family: var(--serif); font-size: clamp(2.8rem, 4.6vw, 4.4rem); font-weight: 400; line-height: 1.08; letter-spacing: -0.055em; color: var(--primary); margin: 0; }
@@ -75,6 +75,64 @@ h2 em { font-weight: 400; }
   .poem-line { padding-left: 0.6rem; text-indent: -0.6rem; }
 }
 
+
+.note-paper::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit; }
+.note-paper[data-open='true']::after { animation: note-glow 1800ms ease-out both; }
+.note-paper[data-open='true'] .note-cover svg { animation: heart-pop 750ms ease-out both; }
+.note-paper[data-open='true'] .poem-line { animation: line-reveal 650ms ease-out both; }
+.reveal-effects { position: fixed; inset: 0; height: 100dvh; z-index: 50; pointer-events: none; overflow: clip; contain: strict; }
+.burst-origin { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+.burst-particle { position: absolute; left: 0; top: 0; animation: heart-burst 3000ms linear both; will-change: transform, opacity; }
+.burst-particle svg { display: block; }
+.burst-glow { position: absolute; width: 400px; height: 400px; left: -200px; top: -200px; border-radius: 50%; background: radial-gradient(circle, #ffbdcc77, #ffbdcc00 70%); animation: burst-glow 1400ms ease-out both; }
+.burst-ring { position: absolute; width: 100px; height: 100px; left: -50px; top: -50px; border: 3px solid #cf547c90; border-radius: 50%; animation: burst-ring 1100ms ease-out both; }
+
+@keyframes heart-burst {
+  0% { opacity: 0; transform: translate(-50%, -50%) rotate(0deg) scale(0.2); }
+  8% { opacity: 1; }
+  36% { opacity: 1; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(calc(var(--turn) * 0.5)) scale(1.1); }
+  70% { opacity: 0.85; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx) * 1.15), calc(-50% + var(--dy) + var(--fall))) rotate(var(--turn)) scale(0.7); }
+}
+.burst-ring-second { animation-delay: 160ms; border-color: #e2a72e90; }
+.burst-heart { position: absolute; left: -65px; top: -65px; color: #d81855; animation: giant-heart 1400ms ease-out both; }
+@keyframes giant-heart {
+  0% { opacity: 0; transform: scale(0.1) rotate(-25deg); }
+  20% { opacity: 1; transform: scale(1.35) rotate(12deg); }
+  40% { opacity: 1; transform: scale(1) rotate(-8deg); }
+  100% { opacity: 0; transform: translateY(-180px) scale(1.7) rotate(15deg); }
+}
+@keyframes paper-party {
+  0% { transform: rotate(1deg) scale(1); }
+  25% { transform: rotate(-2deg) scale(1.025); }
+  50% { transform: rotate(1.5deg) scale(0.99); }
+  75% { transform: rotate(-0.5deg) scale(1.01); }
+  100% { transform: rotate(0) scale(1); }
+}
+@keyframes burst-ring {
+  from { opacity: 0.8; transform: scale(0.25); }
+  to { opacity: 0; transform: scale(8); }
+}
+@keyframes burst-glow {
+  0% { opacity: 0; transform: scale(0.4); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.8); }
+}
+@keyframes note-glow {
+  0%, 100% { box-shadow: 0 0 0 0 #d7447100; }
+  25% { box-shadow: 0 0 45px 12px #d744712b; }
+}
+@keyframes heart-pop {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.45) rotate(-10deg); }
+  65% { transform: scale(0.95) rotate(5deg); }
+}
+@keyframes line-reveal {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .reveal-effects { display: none; }
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
