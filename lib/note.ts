@@ -4,8 +4,8 @@ export const note = {
     [
       'You asked for a poem.',
       'I got a little carried away.',
-      "You're learning new languages.",
-      "I'm still figuring out what to say.",
+      'You said you like the princess treatment.',
+      'Does this count?',
     ],
     [
       'You can pick the song.',
