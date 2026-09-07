@@ -1,0 +1,80 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --radius-lg: 0.25rem;
+}
+
+:root {
+  color-scheme: light;
+  --background: #f5e3e4;
+  --foreground: #562d32;
+  --primary: #af193a;
+  --primary-foreground: #fff9f4;
+  --border: #d9b2b5;
+  --ring: #af193a;
+  --muted: #eed3d6;
+  --muted-foreground: #7c5157;
+  --paper: #fffaf2;
+  --serif: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+html { min-width: 280px; background: var(--background); }
+body { margin: 0; color: var(--foreground); font-family: 'Avenir Next', Avenir, 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; cursor: pointer; }
+a { color: inherit; }
+::selection { background: #af193a; color: #fffaf2; }
+:focus-visible { outline: 3px solid var(--primary); outline-offset: 6px; }
+.note-layout { display: grid; grid-template-columns: 0.85fr 1fr; gap: clamp(2.5rem, 7vw, 8rem); align-items: center; padding: clamp(2rem, 7vw, 7.5rem) clamp(1.4rem, 5vw, 5.5rem); min-height: 100svh; max-width: 1450px; margin: auto; }
+.intro { padding: 0; }
+h1 { margin: 2rem 0 2.4rem; font-family: var(--serif); font-size: clamp(5.4rem, 10vw, 10.25rem); line-height: 0.88; letter-spacing: -0.065em; font-weight: 400; color: var(--primary); }
+h1 span { display: inline-block; padding-top: 0.05em; }
+h1 i { font-weight: 400; }
+.note-shell { min-width: 0; padding: 0.6rem 0; }
+.note-paper { background: var(--paper); border: 1px solid #dfc5c0; padding: clamp(1.4rem, 3.6vw, 3.8rem); box-shadow: 0 4px 0 -1px #f7eee4, 0 5px 0 #ddc6c2, 0 9px 0 -2px #f8efe7, 0 10px 0 -1px #ddc6c2, 0 25px 50px -28px #68373d55; transform: rotate(1.4deg); transition: transform 450ms ease; }
+.note-paper[data-open='true'] { transform: rotate(0deg); }
+.note-cover { text-align: center; padding: 1.75rem 0 3.5rem; }
+.note-cover svg { margin: 0 auto 2rem; color: var(--primary); }
+h2 { font-family: var(--serif); font-size: clamp(2.8rem, 4.6vw, 4.4rem); font-weight: 400; line-height: 1.08; letter-spacing: -0.055em; color: var(--primary); margin: 0; }
+h2 em { font-weight: 400; }
+.open-note { display: flex; align-items: center; justify-content: center; gap: 1rem; width: 100%; height: auto; min-height: 3.6rem; padding: 0.8rem 1rem; border: 1px solid var(--primary); border-radius: 0.2rem; background: transparent; color: var(--primary); font-size: 1rem; font-weight: 500; white-space: normal; transition: background 180ms ease, color 180ms ease; }
+.open-note:hover { background: var(--primary); color: var(--paper); }
+.open-note svg { transition: transform 300ms ease; flex-shrink: 0; }
+.open-note .reversed { transform: rotate(180deg); }
+.poem-panel { height: var(--collapsible-panel-height); overflow: hidden; transition: height 450ms ease; }
+.poem-panel[data-starting-style], .poem-panel[data-ending-style] { height: 0; }
+.poem-inner { padding-top: 2.2rem; }
+.poem { font-family: var(--serif); font-size: clamp(1.03rem, 1.42vw, 1.25rem); line-height: 1.85; letter-spacing: -0.02em; }
+.stanza { margin: 0 0 1.4rem; }
+.poem-line { display: block; }
+.signature { margin: 2rem 0; }
+.signature p { font-family: var(--serif); font-style: italic; font-size: 2rem; margin: 0.35rem 0 0; color: var(--primary); }
+.postscript { border-top: 1px solid var(--border); padding-top: 1.5rem; }
+.instagram-link { display: flex; justify-content: center; align-items: center; gap: 0.75rem; min-height: 3.5rem; padding: 1rem; border-radius: 0.2rem; color: var(--paper); background: var(--primary); text-decoration: none; font-size: 1rem; transition: background 180ms ease; }
+.instagram-link:hover { background: #87112b; }
+
+@media (max-width: 760px) {
+  .note-layout { grid-template-columns: 1fr; gap: 1.25rem; padding: 2rem 1.5rem 3rem; align-content: center; }
+  .intro { text-align: center; }
+  h1 { font-size: clamp(5rem, 17vw, 8rem); margin: 1.8rem 0 1.5rem; }
+  .note-paper { padding: 1.5rem; transform: rotate(0.75deg); }
+  .note-cover { padding: 1.5rem 0 2.5rem; }
+  h2 { font-size: clamp(2.75rem, 10vw, 4rem); }
+  .poem { font-size: 1.075rem; line-height: 1.8; }
+  .poem-line { padding-left: 0.6rem; text-indent: -0.6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
