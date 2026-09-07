@@ -1,15 +1,15 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useId, useRef, useState } from 'react';
 import { ArrowDown, ArrowUpRight, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { CelebrationCanvas } from '@/components/celebration-canvas';
 import { RevealBurst } from '@/components/reveal-burst';
 import { note } from '@/lib/note';
 
 export function LittleNote() {
   const [open, setOpen] = useState(false);
+  const poemId = useId();
   const [burst, setBurst] = useState<number | null>(null);
   const burstId = useRef(0);
   const clearBurst = useCallback(() => setBurst(null), []);
@@ -25,7 +25,7 @@ export function LittleNote() {
   }
 
   return (
-    <Collapsible open={open} onOpenChange={handleOpenChange} className="note-shell">
+    <div className="note-shell">
       <CelebrationCanvas burst={burst} />
       {burst !== null && <RevealBurst key={burst} onComplete={clearBurst} />}
       <article className="note-paper" data-open={open}>
@@ -33,18 +33,16 @@ export function LittleNote() {
           <Heart size={24} strokeWidth={1.3} aria-hidden="true" />
           <h2><em>For you.</em></h2>
         </div>
-        <CollapsibleTrigger render={<Button variant="outline" />} className="open-note">
+        <Button variant="outline" className="open-note" aria-expanded={open} aria-controls={poemId} onClick={() => handleOpenChange(!open)}>
           {open ? 'Close' : 'Open your poem'}
           <ArrowDown size={18} className={open ? 'reversed' : ''} aria-hidden="true" />
-        </CollapsibleTrigger>
-        <CollapsibleContent className="poem-panel">
+        </Button>
+        <div id={poemId} hidden={!open} className="poem-panel">
           <div className="poem-inner">
             <div className="poem" aria-label="A poem for Maddi">
-              {note.stanzas.map((stanza, stanzaIndex) => (
+              {note.stanzas.map((stanza) => (
                 <p className="stanza" key={stanza[0]}>
-                  {stanza.map((line, lineIndex) => (
-                    <span className="poem-line" key={line} style={{ animationDelay: `${(note.stanzas.slice(0, stanzaIndex).reduce((count, lines) => count + lines.length, 0) + lineIndex) * 55}ms` }}>{line}</span>
-                  ))}
+                  {stanza.map((line) => <span className="poem-line" key={line}>{line}</span>)}
                 </p>
               ))}
             </div>
@@ -55,8 +53,8 @@ export function LittleNote() {
               </a>
             </div>
           </div>
-        </CollapsibleContent>
+        </div>
       </article>
-    </Collapsible>
+    </div>
   );
 }

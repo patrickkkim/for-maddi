@@ -52,8 +52,7 @@ h2 em { font-weight: 400; }
 .open-note:hover { background: var(--primary); color: var(--paper); }
 .open-note svg { transition: transform 300ms ease; flex-shrink: 0; }
 .open-note .reversed { transform: rotate(180deg); }
-.poem-panel { height: var(--collapsible-panel-height); overflow: hidden; transition: height 450ms ease; }
-.poem-panel[data-starting-style], .poem-panel[data-ending-style] { height: 0; }
+.poem-panel { overflow: hidden; }
 .poem-inner { padding-top: 2.2rem; }
 .poem { font-family: var(--serif); font-size: clamp(1.03rem, 1.42vw, 1.25rem); line-height: 1.85; letter-spacing: -0.02em; }
 .stanza { margin: 0 0 1.4rem; }
@@ -79,7 +78,7 @@ h2 em { font-weight: 400; }
 .note-paper::after { opacity: 0; box-shadow: 0 0 45px 12px #d744712b; content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit; }
 .note-paper[data-open='true']::after { animation: note-glow 1800ms ease-out both; }
 .note-paper[data-open='true'] .note-cover svg { animation: heart-pop 750ms ease-out both; }
-.note-paper[data-open='true'] .poem-line { animation: line-reveal 650ms ease-out both; }
+.note-paper[data-open='true'] .poem-inner { animation: line-reveal 500ms ease-out both; }
 .celebration-canvas { position: fixed; inset: 0; width: 100%; height: 100dvh; z-index: 51; pointer-events: none; }
 .reveal-effects { position: fixed; inset: 0; height: 100dvh; z-index: 50; pointer-events: none; overflow: clip; contain: strict; }
 .burst-origin { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
