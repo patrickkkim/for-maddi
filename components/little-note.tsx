@@ -4,6 +4,7 @@ import { useCallback, useRef, useState } from 'react';
 import { ArrowDown, ArrowUpRight, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { CelebrationCanvas } from '@/components/celebration-canvas';
 import { RevealBurst } from '@/components/reveal-burst';
 import { note } from '@/lib/note';
 
@@ -25,6 +26,7 @@ export function LittleNote() {
 
   return (
     <Collapsible open={open} onOpenChange={handleOpenChange} className="note-shell">
+      <CelebrationCanvas burst={burst} />
       {burst !== null && <RevealBurst key={burst} onComplete={clearBurst} />}
       <article className="note-paper" data-open={open}>
         <div className="note-cover">

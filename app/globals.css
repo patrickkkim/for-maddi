@@ -76,24 +76,16 @@ h2 em { font-weight: 400; }
 }
 
 
-.note-paper::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit; }
+.note-paper::after { opacity: 0; box-shadow: 0 0 45px 12px #d744712b; content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit; }
 .note-paper[data-open='true']::after { animation: note-glow 1800ms ease-out both; }
 .note-paper[data-open='true'] .note-cover svg { animation: heart-pop 750ms ease-out both; }
 .note-paper[data-open='true'] .poem-line { animation: line-reveal 650ms ease-out both; }
+.celebration-canvas { position: fixed; inset: 0; width: 100%; height: 100dvh; z-index: 51; pointer-events: none; }
 .reveal-effects { position: fixed; inset: 0; height: 100dvh; z-index: 50; pointer-events: none; overflow: clip; contain: strict; }
 .burst-origin { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
-.burst-particle { position: absolute; left: 0; top: 0; animation: heart-burst 3000ms linear both; will-change: transform, opacity; }
-.burst-particle svg { display: block; }
 .burst-glow { position: absolute; width: 400px; height: 400px; left: -200px; top: -200px; border-radius: 50%; background: radial-gradient(circle, #ffbdcc77, #ffbdcc00 70%); animation: burst-glow 1400ms ease-out both; }
 .burst-ring { position: absolute; width: 100px; height: 100px; left: -50px; top: -50px; border: 3px solid #cf547c90; border-radius: 50%; animation: burst-ring 1100ms ease-out both; }
 
-@keyframes heart-burst {
-  0% { opacity: 0; transform: translate(-50%, -50%) rotate(0deg) scale(0.2); }
-  8% { opacity: 1; }
-  36% { opacity: 1; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(calc(var(--turn) * 0.5)) scale(1.1); }
-  70% { opacity: 0.85; }
-  100% { opacity: 0; transform: translate(calc(-50% + var(--dx) * 1.15), calc(-50% + var(--dy) + var(--fall))) rotate(var(--turn)) scale(0.7); }
-}
 .burst-ring-second { animation-delay: 160ms; border-color: #e2a72e90; }
 .burst-heart { position: absolute; left: -65px; top: -65px; color: #d81855; animation: giant-heart 1400ms ease-out both; }
 @keyframes giant-heart {
@@ -119,8 +111,8 @@ h2 em { font-weight: 400; }
   100% { opacity: 0; transform: scale(1.8); }
 }
 @keyframes note-glow {
-  0%, 100% { box-shadow: 0 0 0 0 #d7447100; }
-  25% { box-shadow: 0 0 45px 12px #d744712b; }
+  0%, 100% { opacity: 0; }
+  25% { opacity: 1; }
 }
 @keyframes heart-pop {
   0%, 100% { transform: scale(1); }
@@ -133,6 +125,6 @@ h2 em { font-weight: 400; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal-effects { display: none; }
+  .reveal-effects, .celebration-canvas { display: none; }
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }

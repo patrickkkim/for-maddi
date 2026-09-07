@@ -4,6 +4,12 @@ import userEvent from '@testing-library/user-event';
 import { LittleNote } from '@/components/little-note';
 import { RevealBurst } from '@/components/reveal-burst';
 
+const { fireConfetti, createConfetti } = vi.hoisted(() => {
+  const fire = Object.assign(vi.fn(), { reset: vi.fn() });
+  return { fireConfetti: fire, createConfetti: vi.fn(() => fire) };
+});
+vi.mock('canvas-confetti', () => ({ default: { create: createConfetti } }));
+
 function mockMotionPreference(reduced: boolean) {
   vi.stubGlobal('matchMedia', (query: string) => ({
     matches: reduced && query.includes('prefers-reduced-motion'),
@@ -17,7 +23,7 @@ function mockMotionPreference(reduced: boolean) {
   }));
 }
 
-beforeEach(() => mockMotionPreference(false));
+beforeEach(() => { vi.clearAllMocks(); mockMotionPreference(false); });
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); vi.useRealTimers(); });
 
 describe('Maddi’s little note', () => {
@@ -28,6 +34,7 @@ describe('Maddi’s little note', () => {
     await user.click(screen.getByRole('button', { name: 'Open your poem' }));
     expect(screen.getByText('let me take you out for coffee.')).toBeTruthy();
     expect(document.querySelector('.reveal-effects')).toBeNull();
+    expect(createConfetti).not.toHaveBeenCalled();
   });
 
   it('finishes the celebration and clears its cleanup timer on unmount', async () => {
@@ -50,6 +57,8 @@ describe('Maddi’s little note', () => {
     await user.click(trigger);
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
     expect(document.querySelector('.reveal-effects')).not.toBeNull();
+    expect(createConfetti).toHaveBeenCalledWith(expect.any(HTMLCanvasElement), expect.objectContaining({ useWorker: true }));
+    expect(fireConfetti).toHaveBeenCalledWith(expect.objectContaining({ origin: { x: 0.5, y: 0.5 } }));
     expect(screen.getByText('let me take you out for coffee.')).toBeTruthy();
     const link = screen.getByRole('link', { name: 'Find me on Instagram' });
     expect(link.getAttribute('href')).toBe('https://www.instagram.com/s_h_kim_0/');
