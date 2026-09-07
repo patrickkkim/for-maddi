@@ -18,5 +18,5 @@ export const note = {
     label: 'Find me on Instagram',
     url: 'https://www.instagram.com/s_h_kim_0/',
   },
-  signature: 'Patrick',
+  signature: '승훈',
 };
